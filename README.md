@@ -21,8 +21,8 @@ Projeyi yerel bilgisayarınızda çalıştırmak için aşağıdaki adımları i
 ### 1\. Repoyu Klonlayın
 
 ```bash
-git clone https://github.com/KULLANICI_ADIN/orchestr-ai.git
-cd orchestr-ai
+git clone https://github.com/Yerlifan/Orchestr.git
+cd Orchestr
 ```
 
 ### 2\. Sanal Ortam Oluşturun (Önerilen)
