@@ -90,6 +90,7 @@ Uygulamanın çalışması için LLM sağlayıcılarından API anahtarına ihtiy
 ```text
 streamlit
 pyautogen
+autogen
 PyPDF2
 watchdog
 openai
