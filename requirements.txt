@@ -1,4 +1,6 @@
 streamlit
-ag2
+pyautogen
+PyPDF2
+watchdog
 openai
 google-generativeai
