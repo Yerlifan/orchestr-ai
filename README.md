@@ -4,7 +4,7 @@ Bunu kopyalayıp proje klasöründe `README.md` adıyla kaydedebilirsin.
 
 -----
 
-# 🛡️ ORCHESTR PRO
+# 🛡️ ORCHESTR AI
 
 **Gelişmiş Yapay Zeka Takım Orkestrasyon Platformu**
 
