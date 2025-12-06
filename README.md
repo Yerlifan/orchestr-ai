@@ -4,10 +4,6 @@
 
 ORCHESTR AI, **Microsoft AutoGen** ve **Streamlit** üzerine inşa edilmiş, çoklu yapay zeka ajanlarının (Multi-Agent Systems) işbirliği içinde çalışmasını sağlayan modüler bir arayüzdür. Kullanıcılar, özelleştirilmiş ajan ekipleri kurabilir, RAG (Retrieval-Augmented Generation) ile belge analizi yaptırabilir ve karmaşık görevleri dinamik tur yönetimi ile çözüme kavuşturabilir.
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.32-red)
-![AutoGen](https://img.shields.io/badge/Microsoft%20AutoGen-0.2-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ## 🌟 Temel Özellikler
 
@@ -28,7 +24,7 @@ Proje, sürdürülebilirlik ve performans için **4 temel modüle** ayrılmışt
 
 | Dosya | Açıklama |
 | :--- | :--- |
-| `main.py` | Uygulamanın ana giriş noktası. UI mantığı, sohbet döngüsü ve AutoGen orkestrasyonunu yönetir. |
+| `orchestr_streamlit.py` | Uygulamanın ana giriş noktası. UI mantığı, sohbet döngüsü ve AutoGen orkestrasyonunu yönetir. |
 | `config.py` | Sabit ayarlar, dil paketleri (TR/EN), model listeleri ve sistem parametrelerini içerir. |
 | `data_handler.py` | Veritabanı (JSON) işlemleri, şifreleme, dosya okuma (RAG) ve ajan transferi işlemlerini yürütür. |
 | `styles.py` | CSS enjeksiyonları, görsel tasarım, tema motoru ve canlı terminal sınıfını barındırır. |
@@ -39,7 +35,7 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 **1. Depoyu Klonlayın:**
 ```bash
-git clone [https://github.com/Yerlifan/orchestr-ai.git](https://github.com/Yerlifan/orchestr-ai.git)
+git clone https://github.com/Yerlifan/orchestr-ai.git
 cd orchestr-ai
 ````
 
