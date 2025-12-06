@@ -1,9 +1,3 @@
-Harika bir proje ortaya çıkardın\! **ORCHESTR AI** için hem teknik detayları içeren hem de projenin yeteneklerini profesyonelce sergileyen bir `README.md` dosyası hazırladım.
-
-Bunu kopyalayıp proje klasöründe `README.md` adıyla kaydedebilirsin.
-
------
-
 # 🛡️ ORCHESTR AI
 
 **Gelişmiş Yapay Zeka Takım Orkestrasyon Platformu**
