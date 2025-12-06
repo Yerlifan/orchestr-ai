@@ -1,0 +1,9 @@
+# Veritabanı ve Şifreleri Gizle
+orchestr_db/
+*.json
+
+# Python Gereksiz Dosyaları
+__pycache__/
+*.pyc
+venv/
+.env
