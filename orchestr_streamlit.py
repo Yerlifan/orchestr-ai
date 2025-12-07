@@ -13,6 +13,9 @@ import styles
 
 st.set_page_config(page_title="ORCHESTR AI", page_icon="🛡️", layout="wide")
 
+# JS SCROLL FIX
+components.html("""<script>function scrollToEnd(){const m=window.parent.document.querySelector(".main");if(m){m.scrollTo({top:m.scrollHeight,behavior:'smooth'});}}</script>""", height=0, width=0)
+
 # --- INIT ---
 defaults = {
     "logged_in": False, "username": None, "avatar": "👤",
@@ -115,8 +118,9 @@ with st.popover(f"✏️ {T['edit_title']}"):
 with st.sidebar:
     c1, c2 = st.columns(2)
     with c1:
-        k = list(config.THEMES.keys()); c = st.session_state.theme if st.session_state.theme in k else "Kızıl"
-        sel_t = st.selectbox(T["theme_sel"], k, index=k.index(c), key="th_sel")
+        theme_keys = list(config.THEMES.keys())
+        c = st.session_state.theme if st.session_state.theme in theme_keys else "Kızıl"
+        sel_t = st.selectbox(T["theme_sel"], theme_keys, index=theme_keys.index(c), key="th_sel")
         if sel_t != st.session_state.theme: st.session_state.theme = sel_t; st.rerun()
     with c2:
         bg = st.color_picker(T["bg_sel"], value=st.session_state.bg_color, key="bg_sel")
@@ -216,24 +220,39 @@ def start_orc():
 
 # --- UI STATES ---
 if not st.session_state.is_running:
-    if not st.session_state.agents_config: st.info(f"👋 {T['welcome']}, {u}")
+    if not st.session_state.agents_config: st.info(f"👋 {T['welcome']} {u}")
+    
+    # 1. GEÇMİŞTEN AJAN TRANSFER (YORUM SATIRI KALDIRILDI VE LİMİT EKLENDİ)
     with st.expander(f"{T['import_title']}", expanded=False):
         past = db.get_all_past_agents(u)
         if past:
             sel = st.selectbox("Seç:", list(past.keys()))
             if st.button(T["import_btn"]):
-                st.session_state.agents_config.append(past[sel]); db.save_user_data(u, "team", st.session_state.agents_config); save_chat(); st.rerun()
+                # --- AJAN SINIRI ---
+                if len(st.session_state.agents_config) >= 10:
+                    st.error("⚠️ Maksimum 10 ajan limiti doldu!")
+                else:
+                    st.session_state.agents_config.append(past[sel]); db.save_user_data(u, "team", st.session_state.agents_config); save_chat(); st.rerun()
         else: st.caption(T["no_past_agent"])
+
+    # 2. YENİ AJAN EKLEME (FIX: c4 SÜTUNUN İÇİNE ALINDI)
     with st.expander(f"➕ {T['add_agent']}", expanded=True):
         c1, c2, c3, c4 = st.columns([2, 3, 2, 1])
         n = c1.text_input(T["name"], placeholder="Scientist, Guide, Programmer"); r = c2.text_input(T["role"]); 
         model_options = [m["label"] for m in st.session_state.available_models]
         m = c3.selectbox(T["model"], model_options)
+        
+        # c4.button SÜTUN TANIMINDAN SONRA GELMELİ
         if c4.button(T["add_agent"], use_container_width=True):
-            if n and r:
+            # --- AJAN SINIRI ---
+            if len(st.session_state.agents_config) >= config.MAX_AGENT_LIMIT:
+                st.error(f"⚠️ Maksimum {config.MAX_AGENT_LIMIT} ajan limiti doldu!")
+            elif n and r:
                 sl = next(x for x in st.session_state.available_models if x["label"] == m)
                 st.session_state.agents_config.append({"name": n.replace(" ","_"), "role": r, "model_config": sl})
                 db.save_user_data(u, "team", st.session_state.agents_config); save_chat(); st.rerun()
+            else:
+                st.warning("İsim ve Rol boş olamaz.")
 
     if st.session_state.agents_config:
         st.write("---")
@@ -255,6 +274,7 @@ if not st.session_state.is_running:
                     db.save_user_data(u, "team", st.session_state.agents_config); save_chat(); st.success("OK"); time.sleep(0.5); st.rerun()
                 if c_del.button("🗑️ " + T["delete"], key=f"dl{i}"): del_agent(i)
     
+    # START BUTONU SECONDARY
     if st.button(f"🚀 {T['start_btn']}", type="secondary", use_container_width=True): start_orc()
 
 else:
@@ -278,7 +298,6 @@ else:
         if st.button(T["stop_icon"], help=T["stop_task"], type="primary"): 
             st.session_state.processing = False; st.session_state.is_running = False; st.rerun()
     with c_in:
-        # --- KARAKTER LİMİTİ AKTİF EDİLDİ ---
         pr = st.chat_input(T["chat_input"], key="main_chat_unique", max_chars=config.MAX_CHAR_LIMIT)
     tph = st.empty()
     if st.session_state.terminal_logs and not st.session_state.get("processing", False):
@@ -363,11 +382,10 @@ else:
                 
                 num_agents = len(st.session_state.agents_config)
                 if num_agents == 0: num_agents = 1
-                curr_msgs = len(st.session_state.chat_history) # User dahil toplam tarihçe
+                curr_msgs = len(st.session_state.chat_history)
                 
-                # Eklenecek = (Döngü Sayısı * Ajan Sayısı)
+                # --- SENİN FORMÜLÜN KORUNDU ---
                 add_msgs = turn_limit * num_agents
-                # AutoGen, chat history'yi context olarak alır.
                 tgt = add_msgs * (num_agents - 1) + 1
                 
                 msg = f"{pr} {rag_app}"
