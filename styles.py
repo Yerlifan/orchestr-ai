@@ -57,7 +57,7 @@ def load_css(theme_color, bg_color):
         
         /* Login Kartı */
         .login-container {{
-            background: linear-gradient(180deg, rgba(30,30,30,0.8) 0%, rgba(20,20,20,0.9) 100%);
+            background: linear-gradient(180deg, rgba(255, 85, 85, 0.6) 0%, rgba(15, 15, 20, 0.95) 100%);
             padding: 3rem; border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);

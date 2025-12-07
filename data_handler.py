@@ -68,7 +68,7 @@ def read_uploaded_file(uploaded_file):
         else: return uploaded_file.getvalue().decode("utf-8")
     except Exception as e: return f"Error: {e}"
 
-# --- KULLANICI ---
+# --- KULLANICI YÖNETİMİ ---
 def register_user(u, p, a):
     users = load_json(config.USERS_FILE)
     if u in users: return False, "Username Taken"
@@ -86,9 +86,26 @@ def get_all_users():
     users = load_json(config.USERS_FILE)
     return [{"name": k, "avatar": v.get("avatar", "👤")} for k, v in users.items()]
 
-def get_user_files(u): return {"sessions": os.path.join(config.DB_FOLDER, f"{u}_sessions.json"), "team": os.path.join(config.DB_FOLDER, f"{u}_team.json")}
-def get_user_data(u, t): p = get_user_files(u); return load_json(p["sessions"], {}) if t=="sessions" else load_json(p["team"], [])
-def save_user_data(u, t, d): p = get_user_files(u); save_json(p["sessions"] if t=="sessions" else p["team"], d)
+# --- VERİ VE KÜTÜPHANE YÖNETİMİ (PUBLIC/PRIVATE) ---
+def get_user_files(u):
+    return {
+        "sessions": os.path.join(config.DB_FOLDER, f"{u}_sessions.json"),
+        "team": os.path.join(config.DB_FOLDER, f"{u}_team.json"),      # Private (Aktif) Ekip
+        "library": os.path.join(config.DB_FOLDER, f"{u}_library.json") # Public (Şablon) Ajanlar
+    }
+
+def get_user_data(u, t):
+    p = get_user_files(u)
+    if t == "sessions": return load_json(p["sessions"], {})
+    if t == "team": return load_json(p["team"], [])
+    if t == "library": return load_json(p["library"], []) # Kütüphane verisi
+    return []
+
+def save_user_data(u, t, d):
+    p = get_user_files(u)
+    if t == "sessions": save_json(p["sessions"], d)
+    elif t == "team": save_json(p["team"], d)
+    elif t == "library": save_json(p["library"], d) # Kütüphane kaydı
 
 def get_all_past_agents(u):
     sessions = get_user_data(u, "sessions")
@@ -100,3 +117,27 @@ def get_all_past_agents(u):
                 ag['source_project'] = s_data.get('title', '?')
                 unique_agents[key] = ag
     return unique_agents
+
+# --- EXPORT SİSTEMİ ---
+def export_system_data(u, active_agents=None, active_history=None):
+    """
+    Kullanıcının sistem verilerini ve aktif oturum bilgilerini dışa aktarır.
+    """
+    data = {
+        "meta": {
+            "user": u,
+            "export_date": str(datetime.now()),
+            "version": "OrchestrAI v2.0"
+        },
+        "system_config": {
+            "saved_models": get_models(),
+            "agent_library": get_user_data(u, "library")
+        },
+        "active_session": {
+            "current_team_config": active_agents if active_agents else [],
+            "chat_history_summary": f"{len(active_history)} messages" if active_history else "Empty",
+            # İsteğe bağlı: Tüm chat geçmişini de ekleyebiliriz
+            "full_chat_history": active_history if active_history else []
+        }
+    }
+    return json.dumps(data, indent=4, ensure_ascii=False)

@@ -12,10 +12,8 @@ MODELS_FILE = os.path.join(DB_FOLDER, "models.json")
 ADMIN_PASSWORD = "yerlifan123"
 
 # --- SİSTEM AYARLARI ---
-# Kullanıcının chat kutusuna yazabileceği maksimum karakter sayısı
-MAX_CHAR_LIMIT = 25000 
-# Kullanıcının ekleyebileceği maksimum ajan sayısı
-MAX_AGENT_LIMIT = 10
+MAX_CHAR_LIMIT = 25000  
+MAX_AGENT_LIMIT = 10    
 
 # --- AVATARLAR ---
 AVATARS = ["👨‍💻", "👩‍💻", "🚀", "🧠", "🦁", "🦉", "🦄", "🎨", "⚡", "🤖", "🔥", "💎", "🛡️", "👑", "👽", "👻", "🐯"]
@@ -43,7 +41,7 @@ MLABS = [m["label"] for m in DEFAULT_MODELS]
 # --- DİL PAKETİ ---
 LANG = {
     "TR": {
-        "login_header": "GİRİŞ", "login_sub": "Yapay Zeka Takım Orkestrasyonu",
+        "login_header": "ORCHESTR.AI", "login_sub": "Yapay Zeka Takım Orkestrasyonu",
         "username": "Kullanıcı Adı", "pass": "Şifre", "login_btn": "Giriş Yap", "reg_btn": "Kayıt Ol",
         "login_title": "Giriş Yap", "reg_title": "Kayıt Ol", "remember": "Beni Hatırla",
         "new_chat": "Yeni Ekip", "my_chats": "Projelerim", "settings": "Sistem Ayarları",
@@ -59,16 +57,65 @@ LANG = {
         "auto": "Otomatik", "seq": "Sıralı", "active_project": "Proje", "edit_title": "Başlığı Düzenle",
         "admin_pass": "Admin Şifresi", "lock": "Kilitle", "unlock": "Kilit Açıldı",
         "wrong_pass": "Hatalı Şifre", "no_api": "API Anahtarı Yok", "terminal": "Canlı Terminal", "working": "Çalışıyor...",
-        "our_team": "TAKIM ARKADAŞLARIMIZ", "welcome": "Hoşgeldin",
+        "our_team": "TAKIM ARKADAŞLARIMIZ", "previous_projects": "(Önceki Projelerden)",
+        "welcome": "Hoşgeldin", 
         "import_title": "♻️ Geçmişten Ajan Transfer Et", "import_btn": "Transfer Et", "no_past_agent": "Geçmiş kayıt bulunamadı.",
         "model_mgmt": "Model Yönetimi", "add_model": "Yeni Model Ekle", "model_label": "Görünecek İsim",
         "model_id": "Model API ID", "model_type": "Altyapı", "add_btn": "Listeye Ekle",
         "reset_models": "Varsayılanlara Dön", "base_url": "Sunucu Adresi", "saved_models": "Kayıtlı Modeller",
         "turn_limit": "Konuşma Turu (Döngü Sayısı)",
-        "round_info": "📊 TUR DURUMU"
+        "round_info": "📊 TUR DURUMU",
+        "lib_title": "📚 Ajan Kütüphanesi",
+        "new_template": "Yeni Şablon Oluştur",
+        "template_name": "Şablon İsmi",
+        "role_desc": "Rol Tanımı",
+        "default_model": "Varsayılan Model",
+        "save_lib": "Kütüphaneye Kaydet",
+        "saved": "Kaydedildi!",
+        "missing_info": "Eksik bilgi",
+        "manage_templates": "Şablonları Yönet",
+        "export_sys": "💾 Sistemi Dışa Aktar",
+        "export_desc": "Sistemi JSON olarak indir.",
+        "download_json": "📥 İndir (JSON)",
+        "appearance": "🎨 Görünüm & Dil",
+        "add_from_lib": "📥 Kütüphaneden Ajan Ekle",
+        "select_lib": "Kütüphaneden Seç:",
+        "add_to_project": "Projeye Dahil Et",
+        "added": "eklendi!",
+        "lib_empty": "Kütüphaneniz boş.",
+        "select_past": "Geçmişten Seç:",
+        "active_team_title": "### 🛡️ Aktif Proje Ekibi (Private)",
+        "active_team_desc": "Bu ajanlar sadece bu sohbet için geçerlidir.",
+        "project_settings_header": "📂 Proje ve Ayarlar",
+        "agent_panel": "🛡️ Ajan Yönetim Paneli",
+        "system_data_header": "💾 Sistem ve Veri",
+        "themes": {
+            "Kızıl": "Kızıl", "Mavi": "Mavi", "Yesil": "Yeşil", 
+            "Mor": "Mor", "Turuncu": "Turuncu", "Turkuaz": "Turkuaz"
+        },
+        "lock": "Paneli Kilitle",
+        "help_title": "ℹ️ Kullanım Rehberi",
+        "help_text": """
+        **1. 🔑 API Erişimi:**
+        En alttaki 'API Erişimi' panelinden OpenAI veya Google API anahtarınızı girin.
+        
+        **2. 🛡️ Ekip Kurulumu:**
+        * **Kütüphane:** Sol menüden 'Ajan Kütüphanesi'ne gidip şablon oluşturun.
+        * **Ekleme:** Ana ekrandan 'Kütüphaneden Ekle' veya 'Manuel Ekle' ile ekibi kurun.
+        
+        **3. 🎛️ Ayarlar:**
+        * **Yaratıcılık:** 0.0 (Mantıksal) - 1.0 (Yaratıcı).
+        * **Tur Sayısı:** Ajanların kaç döngü konuşacağını belirleyin.
+        
+        **4. 🚀 Başlat:**
+        Konuyu yazın ve 'EKİBİ KUR VE BAŞLAT' butonuna basın.
+        
+        **5. 📤 Export:**
+        Konuşma bitince 'Sistemi Dışa Aktar' ile yedeğinizi alabilirsiniz.
+        """
     },
     "EN": {
-        "login_header": "LOGIN", "login_sub": "AI Team Orchestration",
+        "login_header": "ORCHESTR.AI", "login_sub": "AI Team Orchestration",
         "username": "Username", "pass": "Password", "login_btn": "Login", "reg_btn": "Register",
         "login_title": "Login", "reg_title": "Register", "remember": "Remember Me",
         "new_chat": "New Team", "my_chats": "Projects", "settings": "System Settings",
@@ -81,15 +128,64 @@ LANG = {
         "upload_doc": "Upload Doc", "upload_img": "Upload Image",
         "theme_sel": "Accent Color", "bg_sel": "Background", "lang_sel": "Language",
         "creativity": "Creativity", "order": "Order",
-        "auto": "Auto", "seq": "Sequential", "active_project": "Active Project", "edit_title": "Edit Title",
+        "auto": "Auto (Dynamic)", "seq": "Sequential", "active_project": "Active Project", "edit_title": "Edit Title",
         "admin_pass": "Admin Password", "lock": "Lock", "unlock": "Unlocked",
         "wrong_pass": "Wrong Password", "no_api": "No API Keys", "terminal": "Live Terminal", "working": "Working...",
-        "our_team": "OUR TEAM", "welcome": "Welcome",
+        "our_team": "OUR TEAM", "previous_projects": "(Previous Projects)",
+        "welcome": "Welcome",
         "import_title": "♻️ Import Agent", "import_btn": "Import", "no_past_agent": "No history found.",
         "model_mgmt": "Model Management", "add_model": "Add New Model", "model_label": "Display Name",
         "model_id": "Model API ID", "model_type": "Provider", "add_btn": "Add to List",
         "reset_models": "Reset to Defaults", "base_url": "Base URL", "saved_models": "Saved Models",
         "turn_limit": "Conversation Turns (Cycles)",
-        "round_info": "📊 ROUND STATUS"
+        "round_info": "📊 ROUND STATUS",
+        "lib_title": "📚 Agent Library",
+        "new_template": "Create New Template",
+        "template_name": "Template Name",
+        "role_desc": "Role Description",
+        "default_model": "Default Model",
+        "save_lib": "Save to Library",
+        "saved": "Saved!",
+        "missing_info": "Missing information",
+        "manage_templates": "Manage Templates",
+        "export_sys": "💾 Export System",
+        "export_desc": "Download system as JSON.",
+        "download_json": "📥 Download (JSON)",
+        "appearance": "🎨 Appearance & Language",
+        "add_from_lib": "📥 Add Agent from Library",
+        "select_lib": "Select from Library:",
+        "add_to_project": "Add to Project",
+        "added": "added!",
+        "lib_empty": "Your library is empty.",
+        "select_past": "Select from Past:",
+        "active_team_title": "### 🛡️ Active Project Team (Private)",
+        "active_team_desc": "These agents are specific to this chat only.",
+        "project_settings_header": "📂 Project & Settings",
+        "agent_panel": "🛡️ Agent Management Panel",
+        "system_data_header": "💾 System & Data",
+        "themes": {
+            "Kızıl": "Red", "Mavi": "Blue", "Yesil": "Green", 
+            "Mor": "Purple", "Turuncu": "Orange", "Turkuaz": "Turquoise"
+        },
+        "lock": "Lock Panel",
+        "help_title": "ℹ️ User Guide",
+        "help_text": """
+        **1. 🔑 API Access:**
+        Enter your OpenAI or Google API key from the 'API Access' panel at the bottom.
+        
+        **2. 🛡️ Team Setup:**
+        * **Library:** Create templates in 'Agent Library' (Left sidebar).
+        * **Add:** Build your team using 'Add from Library' or 'Manual Add' on the main screen.
+        
+        **3. 🎛️ Settings:**
+        * **Creativity:** 0.0 (Logical) - 1.0 (Creative).
+        * **Turns:** Determine how many cycles the agents will talk.
+        
+        **4. 🚀 Start:**
+        Type your task and press 'SETUP & START TEAM'.
+        
+        **5. 📤 Export:**
+        Backup your system using 'Export System' after the chat.
+        """
     }
 }
