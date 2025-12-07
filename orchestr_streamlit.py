@@ -47,7 +47,7 @@ if not st.session_state.logged_in:
     if usrs:
         html = '<div class="team-showcase">'
         for u in usrs:
-            html += f'<marquee><div class="team-card"><div class="team-avatar">{u["avatar"]}</div><div class="team-name">{u["name"]}</div></div></marquee>'
+            html += f'<div class="team-card"><div class="team-avatar">{u["avatar"]}</div><div class="team-name">{u["name"]}</div></div>'
         html += '</div>'
         st.markdown(html, unsafe_allow_html=True)
     else: st.markdown("<br>", unsafe_allow_html=True)
