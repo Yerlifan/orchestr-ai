@@ -5,3 +5,5 @@ PyPDF2
 watchdog
 openai
 google-generativeai
+ag2[gemini]
+ag2[openai]
