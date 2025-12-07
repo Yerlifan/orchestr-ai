@@ -13,7 +13,7 @@ ADMIN_PASSWORD = "yerlifan123"
 
 # --- SİSTEM AYARLARI ---
 # Kullanıcının chat kutusuna yazabileceği maksimum karakter sayısı
-MAX_CHAR_LIMIT = 5000 
+MAX_CHAR_LIMIT = 25000 
 
 # --- AVATARLAR ---
 AVATARS = ["👨‍💻", "👩‍💻", "🚀", "🧠", "🦁", "🦉", "🦄", "🎨", "⚡", "🤖", "🔥", "💎", "🛡️", "👑", "👽", "👻", "🐯"]
